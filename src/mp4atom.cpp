@@ -143,6 +143,9 @@ MP4Atom* MP4Atom::ReadAtom(MP4File& file, MP4Atom* pParentAtom)
         dataSize = file.GetSize() - pos;
     }
 
+    if(dataSize < hdrSize) {
+        throw new Exception( "invalid dataSize", __FILE__, __LINE__, __FUNCTION__ );
+    }
     dataSize -= hdrSize;
 
     log.verbose1f("\"%s\": type = \"%s\" data-size = %" PRIu64 " (0x%" PRIx64 ") hdr %u",

@@ -102,8 +102,11 @@ protected:
         void Resize(MP4ArrayIndex newSize) { \
             m_numElements = newSize; \
             m_maxNumElements = newSize; \
+            uint32_t mul = newSize * sizeof(type); \
+            if(mul / newSize != sizeof(type)) \
+                throw new Exception("multiplication overflow", __FILE__, __LINE__, __FUNCTION__);\
             m_elements = (type*)MP4Realloc(m_elements, \
-                m_maxNumElements * sizeof(type)); \
+                mul); \
         } \
         \
         type& operator[](MP4ArrayIndex index) { \
